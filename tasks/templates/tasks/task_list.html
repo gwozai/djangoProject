@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>ToDo List</h1>
+
+
+    <!-- 显示当前登录用户和登出按钮 -->
+<div class="d-flex justify-content-between mb-3">
+    <p>Logged in as: {{ user.username }}</p>
+
+    <!-- 使用 POST 方法提交登出请求 -->
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+</div>
+
+
+    <a href="{% url 'task_add' %}" class="btn btn-primary mb-3">Add Task</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>  <!-- 截止日期列 -->
+            <th>Priority</th>
+            <th>Category</th> <!-- 分类列 -->
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.due_date|date:"Y-m-d H:i" }}</td>  <!-- 显示格式化的截止日期 -->
+            <td>{{ task.get_priority_display }}</td>
+            <td>{% if task.category %}{{ task.category.name }}{% else %}No Category{% endif %}</td> <!-- 处理分类为空的情况 -->
+            <td>{{ task.completed|yesno:"Yes,No" }}</td> <!-- 显示是否完成 -->
+            <td>
+                <a href="{% url 'task_edit' task.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
