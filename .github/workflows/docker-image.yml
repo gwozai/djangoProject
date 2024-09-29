@@ -38,11 +38,11 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/django-app:latest \
                        -t ${{ secrets.DOCKER_USERNAME }}/django-app:${{ env.DATE }} \
-                      #  -t ${{ secrets.DOCKER_USERNAME }}/django-app:${{ env.VERSION }} .
+                       -t ${{ secrets.DOCKER_USERNAME }}/django-app:${{ env.VERSION }} .
 
       # 推送 Docker 镜像到 Docker Hub
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/django-app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/django-app:${{ env.DATE }}
-          # docker push ${{ secrets.DOCKER_USERNAME }}/django-app:${{ env.VERSION }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/django-app:${{ env.VERSION }}
