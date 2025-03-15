@@ -77,4 +77,8 @@ docker rm my-django-app
 
 
 docker pull gwozai/django-app:latest
-docker run -d -p 8001:8000 --name my-django-app lihua/django-app:latest
+docker run -d -p 8001:8000 --name my-django-app gwozai/django-app:latest
+docker stop my-django-app
+docker rm my-django-app
+docker rmi gwozai/django-app:latest
+docker run -d -p 8000:8000 --name my-django-app lihua/django-app:latest
